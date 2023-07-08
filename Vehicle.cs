@@ -25,42 +25,18 @@ public class Vehicle
 
     private static Vehicle ParseSingleVehicle(byte[] data, ref int index)
     {
-        return new Vehicle
-        {
-            VehicleId = ReadInt32(data, ref index),
-            VehicleRegistration = ReadString(data, ref index),
-            Latitude = ReadFloat(data, ref index),
-            Longitude = ReadFloat(data, ref index),
-            RecordedTimeUTC = ReadUInt64(data, ref index)
-        };
-    }
-
-    private static int ReadInt32(byte[] data, ref int index)
-    {
-        int value = BitConverter.ToInt32(data, index);
+        var vehicle = new Vehicle();
+        vehicle.VehicleId = BitConverter.ToInt32(data, index);
         index += sizeof(int);
-        return value;
-    }
-
-    private static string ReadString(byte[] data, ref int index)
-    {
         int stringLength = Array.IndexOf(data, (byte)0, index) - index;
-        string value = Encoding.ASCII.GetString(data, index, stringLength);
+        vehicle.VehicleRegistration = Encoding.ASCII.GetString(data, index, stringLength);
         index += stringLength + 1; // +1 to skip the null terminator
-        return value;
-    }
-
-    private static float ReadFloat(byte[] data, ref int index)
-    {
-        float value = BitConverter.ToSingle(data, index);
+        vehicle.Latitude = BitConverter.ToSingle(data, index);
         index += sizeof(float);
-        return value;
-    }
-
-    private static ulong ReadUInt64(byte[] data, ref int index)
-    {
-        ulong value = BitConverter.ToUInt64(data, index);
+        vehicle.Longitude = BitConverter.ToSingle(data, index);
+        index += sizeof(float);
+        vehicle.RecordedTimeUTC = BitConverter.ToUInt64(data, index);
         index += sizeof(ulong);
-        return value;
+        return vehicle;
     }
 }

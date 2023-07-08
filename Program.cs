@@ -40,10 +40,10 @@ totalElapsedTime += currentElapsedTime;
 PrintOutTime("Building coordinate tree took:", currentElapsedTime);
 
 stopwatch.Restart();
-for (int i = 0; i < coordinates.Length; i++)
+Parallel.For(0, coordinates.Length, i =>
 {
     vehicleCoordinateTree.FindNearestCoordinate(coordinates[i]);
-}
+});
 stopwatch.Stop();
 currentElapsedTime = stopwatch.ElapsedMilliseconds;
 totalElapsedTime += currentElapsedTime;
@@ -56,7 +56,7 @@ static CoordinateTree BuildVehicleCoordinateTree(List<Vehicle> vehicles)
 {
     var coordinateTree = new CoordinateTree();
 
-    for (int i = 0; i < vehicles.Count; i++)
+    Parallel.For(0, vehicles.Count, i =>
     {
         var vehicle = vehicles[i];
         coordinateTree.Insert(new Point
@@ -64,7 +64,8 @@ static CoordinateTree BuildVehicleCoordinateTree(List<Vehicle> vehicles)
             Latitude = vehicle.Latitude,
             Longitude = vehicle.Longitude
         });
-    }
+    });
+
     return coordinateTree;
 }
 
