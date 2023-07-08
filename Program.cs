@@ -23,7 +23,7 @@ var vehicleData = FileReader.ReadData(filePath);
 stopwatch.Stop();
 currentElapsedTime = stopwatch.ElapsedMilliseconds;
 totalElapsedTime += currentElapsedTime;
-PrintOutTime("Reading from bytes file took:", currentElapsedTime);
+PrintOutTime("Reading bytes from file took:", currentElapsedTime);
 
 stopwatch.Restart();
 var vehicles = Vehicle.ParseVehicleData(vehicleData);
@@ -49,6 +49,8 @@ currentElapsedTime = stopwatch.ElapsedMilliseconds;
 totalElapsedTime += currentElapsedTime;
 PrintOutTime("Finding nearest coordinates took:", currentElapsedTime);
 PrintOutTime("Total Time:", totalElapsedTime);
+Console.WriteLine("\nPress any key to continue...");
+Console.ReadKey();
 
 static CoordinateTree BuildVehicleCoordinateTree(List<Vehicle> vehicles)
 {
